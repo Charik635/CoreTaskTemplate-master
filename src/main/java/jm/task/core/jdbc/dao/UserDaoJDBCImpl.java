@@ -19,14 +19,20 @@ public class UserDaoJDBCImpl implements UserDao {
         try  {
 
             Statement statement = Util.getConnection().createStatement();
+            Util.getConnection().setAutoCommit(false);
             statement.execute("CREATE TABLE `task`.`users` (\n" +
                     "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
                     "  `name` VARCHAR(45) NOT NULL,\n" +
                     "  `lastName` VARCHAR(45) NOT NULL,\n" +
                     "  `age` INT NOT NULL,\n" +
                     "  PRIMARY KEY (`id`));;");
+            Util.getConnection().commit();
         } catch (SQLException throwables) {
+            try {
+                Util.getConnection().rollback();
+            } catch (SQLException e) {
 
+            }
         }
     }
 
@@ -34,9 +40,15 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
 
             Statement statement = Util.getConnection().createStatement();
+            Util.getConnection().setAutoCommit(false);
             statement.execute("DROP TABLE `users`");
+            Util.getConnection().commit();
         } catch (SQLException throwables) {
+            try {
+                Util.getConnection().rollback();
+            } catch (SQLException e) {
 
+            }
         }
     }
 
@@ -45,11 +57,18 @@ public class UserDaoJDBCImpl implements UserDao {
 
             String sql =("INSERT INTO users (name,lastName,age) VALUES (?,?,?)");
             PreparedStatement preparedStatement = Util.getConnection().prepareStatement(sql);
+            Util.getConnection().setAutoCommit(false);
             preparedStatement.setString(1,name);
             preparedStatement.setString(2,lastName);
             preparedStatement.setByte(3,age);
             preparedStatement.execute();
+            Util.getConnection().commit();
         } catch (SQLException throwables) {
+            try {
+                Util.getConnection().rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throwables.printStackTrace();
         }
     }
@@ -59,10 +78,17 @@ public class UserDaoJDBCImpl implements UserDao {
 
             String sql = ("DELETE FROM `users` WHERE id = (?)");
             PreparedStatement preparedStatement = Util.getConnection().prepareStatement(sql);
+            Util.getConnection().setAutoCommit(false);
             preparedStatement.setLong(1,id);
             preparedStatement.execute();
+            Util.getConnection().commit();
 
         } catch (SQLException throwables) {
+            try {
+                Util.getConnection().rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throwables.printStackTrace();
         }
     }
@@ -72,6 +98,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
 
             Statement statement = Util.getConnection().createStatement();
+            Util.getConnection().setAutoCommit(false);
             ResultSet resultSet = statement.executeQuery("SELECT * FROM `users`;");
 
             while (resultSet.next()) {
@@ -81,7 +108,13 @@ public class UserDaoJDBCImpl implements UserDao {
 
 
             }
+            Util.getConnection().commit();
         } catch (SQLException throwables) {
+            try {
+                Util.getConnection().rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throwables.printStackTrace();
         }
 
@@ -92,8 +125,15 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
 
             Statement statement  = Util.getConnection().createStatement();
+            Util.getConnection().setAutoCommit(false);
             statement.execute("TRUNCATE TABLE `users`");
+            Util.getConnection().commit();
         } catch (SQLException throwables) {
+            try {
+                Util.getConnection().rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throwables.printStackTrace();
         }
     }
