@@ -6,6 +6,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +22,7 @@ public class UserDaoHibernateImpl implements UserDao {
         UserDaoHibernateImpl userDaoHibernate = new UserDaoHibernateImpl();
         userDaoHibernate.dropUsersTable();
     }
-    private SessionFactory sessionFactory = Util.factory();
+    private final SessionFactory sessionFactory = Util.factory();
 
     @Override
     public void createUsersTable() {
@@ -72,7 +76,12 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
-        List<User> users =  session.createQuery("from user",User.class).list();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        Query query = session.createQuery(cq);
+        List<User> users = query.getResultList();
+        session.close();
         return users;
     }
 
