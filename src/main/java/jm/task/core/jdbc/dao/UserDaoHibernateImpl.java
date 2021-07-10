@@ -20,7 +20,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     public static void main(String[] args) {
         UserDaoHibernateImpl userDaoHibernate = new UserDaoHibernateImpl();
-        userDaoHibernate.dropUsersTable();
+        userDaoHibernate.createUsersTable();
     }
     private final SessionFactory sessionFactory = Util.factory();
 
@@ -35,7 +35,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 "  `lastName` VARCHAR(45) NOT NULL,\n" +
                 "  `age` INT NOT NULL,\n" +
                 "  PRIMARY KEY (`id`));;").executeUpdate();
-        transaction.commit();
+
         session.close();
     }
 
@@ -45,7 +45,6 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.getTransaction();
         transaction.begin();
         session.createSQLQuery("DROP TABLE IF EXISTS `users` ").executeUpdate();
-        transaction.commit();
         session.close();
 
     }
@@ -56,7 +55,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.getTransaction();
         transaction.begin();
         session.persist(new User(name,lastName,age));
-        transaction.commit();
+
         session.close();
     }
 
@@ -66,7 +65,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.getTransaction();
         transaction.begin();
       session.delete(session.get(User.class,id));
-      transaction.commit();
+
       session.close();
 
     }
@@ -91,7 +90,6 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.getTransaction();
         transaction.begin();
         session.createSQLQuery("TRUNCATE TABLE `users`").executeUpdate();
-        transaction.commit();
         session.close();
     }
 }
