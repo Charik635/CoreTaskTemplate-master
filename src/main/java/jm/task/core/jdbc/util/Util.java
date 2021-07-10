@@ -32,7 +32,7 @@ public class Util {
         properties.setProperty("hibernate.connection.url",URL);
         properties.setProperty("hibernate.connection.username",USERNAME);
         properties.setProperty("hibernate.connection.password",PASSWORD);
-        properties.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
+        properties.setProperty("hibernate.connection.driver_class","com.mysql.cj.jdbc.Driver");
         properties.setProperty("show_sql","true");
         properties.setProperty("hibernate.format_sql","true");
         properties.setProperty("default_schema","task");
