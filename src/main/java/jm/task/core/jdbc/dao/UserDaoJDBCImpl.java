@@ -95,19 +95,11 @@ public class UserDaoJDBCImpl implements UserDao {
                 User user = new User(resultSet.getString(2), resultSet.getString(3), resultSet.getByte(4));
                 user.setId(resultSet.getLong(1));
                 users.add(user);
-
-
             }
             connection.commit();
         } catch (SQLException throwables) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
             throwables.printStackTrace();
         }
-
         return users;
     }
 
