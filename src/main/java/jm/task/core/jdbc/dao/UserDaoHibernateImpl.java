@@ -4,13 +4,10 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -18,10 +15,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     }
 
-    public static void main(String[] args) {
-        UserDaoHibernateImpl userDaoHibernate = new UserDaoHibernateImpl();
-        userDaoHibernate.createUsersTable();
-    }
     private final SessionFactory sessionFactory = Util.factory();
 
     @Override

@@ -8,6 +8,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.security.auth.login.Configuration;
 import javax.xml.ws.Service;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,8 +43,8 @@ public class Util {
         properties.setProperty("hibernate.connection.useUnicode","true");
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(properties).build();
         MetadataSources sources = new MetadataSources(serviceRegistry).addAnnotatedClass(User.class);
-         sessionFactory = sources.buildMetadata().buildSessionFactory();
-         return sessionFactory;
+        sessionFactory = sources.buildMetadata().buildSessionFactory();
+        return sessionFactory;
     }
 
     public Util() throws SQLException {
