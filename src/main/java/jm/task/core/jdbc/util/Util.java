@@ -1,15 +1,9 @@
 package jm.task.core.jdbc.util;
-
 import jm.task.core.jdbc.model.User;
-import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
-
-import javax.security.auth.login.Configuration;
-import javax.xml.ws.Service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
