@@ -33,7 +33,11 @@ public class UserDaoJDBCImpl implements UserDao {
                     "  PRIMARY KEY (`id`));;");
             connection.commit();
         } catch (SQLException throwables) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
 
+            }
         }
     }
 
@@ -43,37 +47,42 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute("DROP TABLE `users`");
             connection.commit();
         } catch (SQLException throwables) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
 
+            }
         }
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        try  {
-
-            String sql = ("INSERT INTO users (name,lastName,age) VALUES (?,?,?)");
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (name,lastName,age) VALUES (?,?,?)")) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.execute();
-            preparedStatement.close();
             connection.commit();
         } catch (SQLException throwables) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throwables.printStackTrace();
         }
     }
 
     public void removeUserById(long id) {
-        try {
-
-            String sql = ("DELETE FROM `users` WHERE id = (?)");
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM `users` WHERE id = (?)")) {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
-            preparedStatement.close();
             connection.commit();
-
         } catch (SQLException throwables) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throwables.printStackTrace();
         }
     }
@@ -91,6 +100,11 @@ public class UserDaoJDBCImpl implements UserDao {
             }
             connection.commit();
         } catch (SQLException throwables) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throwables.printStackTrace();
         }
 
@@ -102,7 +116,11 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute("TRUNCATE TABLE `users`");
             connection.commit();
         } catch (SQLException throwables) {
-
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throwables.printStackTrace();
         }
     }
